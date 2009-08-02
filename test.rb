@@ -1,10 +1,12 @@
 #Boot strap the system (set load pathes, require rubygems...)
 require 'src/bootstrap.rb'
 
+require 'world/world'
 require 'map/map'
 
-m = Map::Map.load('test')
+World.load
 
+m = Map.load('test')
 
 # 
 # class MyWindow < Gosu::Window

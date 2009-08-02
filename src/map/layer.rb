@@ -3,7 +3,11 @@ module Map
     require 'zlib'
     require 'base64'
     
-    def initialize(layer_data)
+    attr_reader :name, :width, :height, :map
+    
+    def initialize(layer_data, map)
+      @map = map
+      
       load_layer_attributes!(layer_data)
       
       load_data!(layer_data["data"].first)
@@ -12,12 +16,15 @@ module Map
     protected
     def load_layer_attributes!(layer_data)
       @name   = layer_data["name"]
-      @width  = layer_data["width"]
-      @height = layer_data["height"]
+      @width  = layer_data["width"].to_i
+      @height = layer_data["height"].to_i
+      
+      Logger.trace "Loaded layer attributes: Name: #{@name} Width: #{@width} Height: #{@height}"
     end
     
     def load_data!(data)
-      p data
+      Logger.trace "Loading layer data for layer '#{@name}'."
+      
       encoding    = data["encoding"]
       compression = data["compression"]
       
@@ -26,7 +33,18 @@ module Map
       
       content = StringIO.new(Base64.decode64(data["content"].strip))
       gz = Zlib::GzipReader.new(content)
-      gz.each_byte {|byte| p byte}
+      
+      @field = []
+      row = []
+      byte_arr = []
+      gz.each_byte do |byte|
+        byte_arr << byte
+        if byte_arr.size == 4
+          row << (byte_arr[0] | byte_arr[1] << 8 | byte_arr[2] << 16 | byte_arr[3] << 24)
+          byte_arr = []
+          @field << row and row = [] if row.size == @width
+        end
+      end
       gz.close
     end
   end

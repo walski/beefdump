@@ -20,4 +20,17 @@
    H4sIAAAAAAAAAO3UuQ3CMABA0dAEcSyAaEEcMwBrcG4BrMIaEPbg2INjBn6RiiYKoCRE/0lflmUlsgs7rARBldJqxWM7/aeF0uHs3Q/O/25PB4ro+P3v/s6JznSha857ycKaNrSN5ze604OeeW0qQyPuzJgm8d2pMdapQc0f3Ke8hQnv4oK1Ja1ox7zH2KcBDUtw/qR3ccrajOYlOKskSZIkSZIkSZIkSZIkSZIkSZIkSVKRvAASyFbtAEAAAA==
   </data>
  </layer>
+ <objectgroup name="Objects" width="0" height="0">
+  <properties>
+   <property name="id" value="tree1"/>
+   <property name="type" value="tree"/>
+  </properties>
+  <object name="portal_1" type="portal" x="480" y="192" width="32" height="32">
+   <properties>
+    <property name="costs" value="25"/>
+    <property name="to" value="portal_1"/>
+   </properties>
+  </object>
+  <object name="pub" type="house" x="448" y="96" width="96" height="128"/>
+ </objectgroup>
 </map>
