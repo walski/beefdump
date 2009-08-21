@@ -21,7 +21,7 @@ module Map
     end
     
     def load_image!(image_data)
-      @image_file = File.expand_path("#{MAP_FOLDER}/#{image_data["source"]}")
+      @image_file = File.expand_path("#{MAP_PATH}/#{image_data["source"]}")
       @image_transparency_color = image_data["trans"]
       
       @dimensions  = ImageUtil.dimensions(@image_file)

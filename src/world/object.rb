@@ -1,5 +1,5 @@
 module World
-  class Object
+  class Object < Entity
     require 'world/object_property'
     
     attr_reader :type, :properties

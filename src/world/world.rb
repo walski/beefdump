@@ -1,7 +1,10 @@
 module World
   require 'xmlsimple'
+  require 'world/entity'
   require 'world/object'
+  require 'world/player'
   
+  # Loads the object descriptions from the objects.xml file in the config folder.
   def self.load
     objects_file = "#{CONFIG_PATH}/objects.xml"
     raise "Objects configuration missing! Please supply '#{objects_file}'." unless File.exist?(objects_file)

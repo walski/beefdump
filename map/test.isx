@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<initial_state>
+  <players>
+    <player name="Sophie">
+      <position x="100" y="100"/>
+    </player>
+    <player name="Peter">
+      <position x="200" y="200"/>
+    </player>
+  </players>
+  <spawnpoint>
+    <position x="50" y="50"/>
+  </spawnpoint>
+</initial_state>

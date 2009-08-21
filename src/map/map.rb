@@ -1,5 +1,5 @@
 module Map
-  MAP_FOLDER = "#{ROOT_PATH}/map"
+  MAP_PATH = "#{ROOT_PATH}/map"
   
   class Map
     require 'xmlsimple'
@@ -9,9 +9,11 @@ module Map
     
     MAP_FORMAT_VERSION = "1.0"
   
-    attr_reader :width, :height, :tile_width, :tile_height, :layers, :tilesets, :objects
+    attr_reader :width, :height, :tile_width, :tile_height, :layers, :tilesets, :objects, :name
   
-    def initialize(map_data)
+    def initialize(map_name, map_data)
+      @name = map_name
+      
       check_compatibility!(map_data)
     
       load_map_attributes!(map_data)
@@ -31,6 +33,14 @@ module Map
       @layers.each do |layer|
         
       end
+    end
+    
+    def get_initial_state
+      Logger.info("Loading initial state for map '#{@name}'.")
+      initial_state_file = "#{MAP_PATH}/#{@name}.isx"
+      raise "Initial state file for map '#{@name}' not found!" unless File.exist?(initial_state_file)
+      
+      XmlSimple.xml_in(initial_state_file)
     end
   
     protected
@@ -87,18 +97,16 @@ module Map
           end
         end
       end
-      
     end
-  
   end
   
   def self.load(map_name)
     Logger.info "Trying to load map #{map_name}"
     
-    map_file = "#{MAP_FOLDER}/#{map_name}.tmx"
+    map_file = "#{MAP_PATH}/#{map_name}.tmx"
     raise "Map does not exist: '#{map_file}'!" unless File.exist?(map_file)
   
-    map = Map.new(XmlSimple.xml_in(map_file))
+    map = Map.new(map_name, XmlSimple.xml_in(map_file))
 
     Logger.info "Successfully loaded map."
     map

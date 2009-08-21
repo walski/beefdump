@@ -1,5 +1,5 @@
 class Logger
-  LEVELS = [:trace, :info, :warn]
+  LEVELS = [:trace, :info, :warn, :error]
   
   def self.level=(new_level)
     raise "No valid log level: '#{new_level}'!" unless @level = LEVELS.index(new_level)
