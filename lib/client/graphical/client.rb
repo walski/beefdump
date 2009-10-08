@@ -12,7 +12,6 @@ module Client
         initialize_tilesets(game.map)
       
         @player = @game.claim_player("Peter", self)
-      Logger.info(@player.class)
         start_main_loop
       end
     
