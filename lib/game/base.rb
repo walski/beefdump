@@ -37,6 +37,10 @@ module Game
       player
     end
   
+    def should_run?
+      !@shutdown
+    end
+  
     protected
   
     def init_game_state
@@ -73,7 +77,7 @@ module Game
     def game_loop
       Logger.info "All systems go! Starting main game loop."
       
-      while game_should_run?
+      while self.should_run?
         start_time = Time.now.to_f
       
         @clients.each do |client|
@@ -84,10 +88,6 @@ module Game
         sleep passed_time > CLIENT_UPDATE_RATE ? 0 : CLIENT_UPDATE_RATE - passed_time
       end
       Logger.info("fin")
-    end
-  
-    def game_should_run?
-      !@shutdown
     end
   end
 end

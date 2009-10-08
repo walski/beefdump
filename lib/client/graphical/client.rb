@@ -25,6 +25,8 @@ module Client
       end
     
       def update_window
+        return unless @game.should_run?
+        
         if @window.button_down? Gosu::Button::KbEscape
           @game.shutdown!
         end
