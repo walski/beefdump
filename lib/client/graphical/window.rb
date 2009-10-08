@@ -2,6 +2,9 @@ module Client
   module Graphical
     require 'gosu'
     class Window < Gosu::Window
+      WIDTH  = 640
+      HEIGHT = 480
+      
       def initialize(client, *args)
         super(*args)
         @client = client

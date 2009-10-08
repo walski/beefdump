@@ -11,11 +11,11 @@ end
 
 # ROOT Path
 ROOT_PATH = File.expand_path("#{File.dirname(__FILE__)}/../")
-SRC_PATH = "#{ROOT_PATH}/src"
-$LOAD_PATH << SRC_PATH
+LIB_PATH = "#{ROOT_PATH}/lib"
+$LOAD_PATH << LIB_PATH
 
 # Monkey patches
-MONKEY_PATCHES_PATH = "#{SRC_PATH}/monkey_patches"
+MONKEY_PATCHES_PATH = "#{LIB_PATH}/monkey_patches"
 load_dir(MONKEY_PATCHES_PATH)
 
 # Config
@@ -23,7 +23,7 @@ CONFIG_PATH = "#{ROOT_PATH}/config"
 CONFIG = OpenStruct.new(
   :active_modules => %w{world map client/base client/graphical/client},
   :logger => OpenStruct.new(
-    :class => "#{SRC_PATH}/logger.rb",
+    :class => "#{LIB_PATH}/logger.rb",
     :level => :info
   )
 )
@@ -36,13 +36,13 @@ Logger.level = CONFIG.logger.level
 Logger.info "Monkey patches, config and logger loaded. Let's get going!"
 
 # Utils
-UTILS_PATH = "#{SRC_PATH}/utils"
+UTILS_PATH = "#{LIB_PATH}/utils"
 Logger.info "Loading utils."
 load_dir(UTILS_PATH)
 
 # Game
 Logger.info "Loading game kernel"
-load "#{SRC_PATH}/game/base.rb"
+load "#{LIB_PATH}/game/base.rb"
 
 # Modules
 CONFIG.active_modules.each do |modul|

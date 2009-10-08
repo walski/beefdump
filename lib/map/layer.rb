@@ -3,7 +3,7 @@ module Map
     require 'zlib'
     require 'base64'
     
-    attr_reader :name, :width, :height, :map
+    attr_reader :name, :width, :height, :map, :field
     
     def initialize(layer_data, map)
       @map = map

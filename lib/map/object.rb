@@ -8,6 +8,10 @@ module Map
       load_properties!(object_data["properties"])
     end
     
+    def is_at?(x, y)
+      self.x >= x && self.x + self.width <= x && self.y >= y && self.y + self.height <= y
+    end
+    
     protected
     def load_object_attributes!(object_data)
       @type = object_data["type"].to_sym

@@ -2,13 +2,13 @@
 <!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
 <map version="1.0" orientation="orthogonal" width="64" height="64" tilewidth="32" tileheight="32">
  <tileset name="Ground 1" firstgid="1" tilewidth="32" tileheight="32">
-  <image source="135e0000.gif" trans="fe6698"/>
+  <image source="135e0000.png" trans="fe6698"/>
  </tileset>
  <tileset name="Ground 2" firstgid="481" tilewidth="32" tileheight="32">
-  <image source="136e0000.gif" trans="fe6698"/>
+  <image source="136e0000.png" trans="fe6698"/>
  </tileset>
  <tileset name="Ground 3" firstgid="961" tilewidth="32" tileheight="32">
-  <image source="137e0000.gif" trans="eb5b95"/>
+  <image source="137e0000.png" trans="eb5b95"/>
  </tileset>
  <layer name="Landschaft" width="64" height="64">
   <data encoding="base64" compression="gzip">

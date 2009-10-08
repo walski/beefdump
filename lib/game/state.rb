@@ -1,24 +1,20 @@
 module Game
   class State
+    require 'ostruct'
     attr_reader :players, :game
     
-    def initialize(game, players)
-      @game = game
+    def initialize(players)
       @players = players
-      
-      @players.each do |player|
-        player.game_state = self
-      end
     end
     
     def self.from_xml(xml, game)
       players = []
       xml['players'].first['player'].each do |player|
         position = player['position'].first
-        players << Game::Player.new(player['name'], [position['x'].to_i, position['y'].to_i])
+        players << Game::Player.new(player['name'], OpenStruct.new({:x => position['x'].to_i, :y => position['y'].to_i}))
       end
       
-      self.new(game, players)
+      self.new(players)
     end
   end
 end

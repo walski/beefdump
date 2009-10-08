@@ -3,11 +3,11 @@ module Game
     require 'game/state'
     require 'game/player'
     
-    CLIENT_UPDATE_RATE = 1.0 / 10 # 10 times a second
-    GAME_STATE_PATH = "#{ROOT_PATH}/game_state"
+    CLIENT_UPDATE_RATE      = 1.0 / 10 # 10 times a second
+    GAME_STATE_PATH         = "#{ROOT_PATH}/game_state"
     CURRENT_GAME_STATE_FILE = "#{GAME_STATE_PATH}/current.bin"
-  
-    attr_reader :players
+
+    attr_reader :map
   
     def initialize
       load_static_data
@@ -32,10 +32,9 @@ module Game
     end
   
     def claim_player(name, client)
-      player = @state.players.select {|p| p.name}
+      player = @state.players.select {|p| p.name == name}.first
       raise "Player not found" unless player
-
-      
+      player
     end
   
     protected
@@ -53,7 +52,7 @@ module Game
   
     def initially_create_game_state!
       initial_state = @map.get_initial_state
-      @state = Game::State.from_xml(initial_state)
+      @state = Game::State.from_xml(initial_state, self)
     end
   
     def save_game_state
@@ -62,7 +61,6 @@ module Game
     end
     
     def load_static_data
-      @players = []
       World.load
     end
   
@@ -74,6 +72,7 @@ module Game
   
     def game_loop
       Logger.info "All systems go! Starting main game loop."
+      
       while game_should_run?
         start_time = Time.now.to_f
       

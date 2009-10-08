@@ -1,7 +1,7 @@
 module Map
   MAP_PATH = "#{ROOT_PATH}/map"
   
-  class Map
+  class Base
     require 'xmlsimple'
     require 'map/layer'
     require 'map/tileset'
@@ -24,15 +24,34 @@ module Map
       @raw_data = map_data
     end
     
-    def background_for(x, y, width, height)
+    def background_at(x, y, width = 1, height = 1)
+      tiles = []
+      @layers.each do |layer|
+        field = Array.new(width).map {|e| Array.new(height).map {|e| nil}}
+        for diff_x in 0..(width - 1)
+          for diff_y in 0..(height - 1)
+            field[diff_x][diff_y] = layer.field[y + diff_y] ? layer.field[y + diff_y][x + diff_x] : nil
+          end
+        end
+        tiles << field
+      end
+      
+      tiles
     end
     
     def objects_at(x, y)
-      objects = []
-      
-      @layers.each do |layer|
-        
+      objects = @objects.select {|o| o.is_at?(x, y)}
+    end
+    
+    def tileset_for(gid)
+      return unless gid
+      chosen = nil
+      @tilesets.each do |tileset|
+        break if chosen && gid < tileset.first_gid
+        chosen = tileset if gid >= tileset.first_gid
       end
+      
+      chosen
     end
     
     def get_initial_state
@@ -54,8 +73,8 @@ module Map
     def load_map_attributes!(map_data)
       @width       = map_data["width"].to_i
       @height      = map_data["height"].to_i
-      @tile_width  = map_data["tile_width"].to_i
-      @tile_height = map_data["tile_height"].to_i
+      @tile_width  = map_data["tilewidth"].to_i
+      @tile_height = map_data["tileheight"].to_i
       
       Logger.trace "Loaded map attributes: Width: #{@width} Height: #{@height} Tile Width: #{@tile_width} Tile Height: #{@tile_height}"
     end
@@ -67,7 +86,7 @@ module Map
     end
     
     def load_tilesets!(map_data)
-      @tilesets = map_data["tileset"].map {|tileset_data| Tileset.new(tileset_data, self)}
+      @tilesets = map_data["tileset"].map {|tileset_data| Tileset.new(tileset_data, self)}.sort {|a, b| a.first_gid <=> b.first_gid}
       
       Logger.info "Loaded #{@tilesets.size} tilesets containing #{@tilesets.inject(0) {|a,t| a += t.tiles_count}} tiles at all."
     end
@@ -106,7 +125,7 @@ module Map
     map_file = "#{MAP_PATH}/#{map_name}.tmx"
     raise "Map does not exist: '#{map_file}'!" unless File.exist?(map_file)
   
-    map = Map.new(map_name, XmlSimple.xml_in(map_file))
+    map = Base.new(map_name, XmlSimple.xml_in(map_file))
 
     Logger.info "Successfully loaded map."
     map

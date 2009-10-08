@@ -1,5 +1,6 @@
 #Boot strap the system (set load pathes, require rubygems...)
-require 'src/bootstrap.rb'
+
+require 'lib/bootstrap.rb'
 
 #Start game
 Game::Base.new
