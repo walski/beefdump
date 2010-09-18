@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<objectset>
-  <object type="house"/>
-  
-  <object type="portal">
-    <property name="to" type="name_reference" mandatory="true"/>
-    <property name="costs" type="number"/>
-  </object>
-</objectset>
